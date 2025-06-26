@@ -8,14 +8,14 @@
         <groupId>org.springframework.boot</groupId>
         <version>2.7.3</version>
     </parent>
-    <groupId>com.sky</groupId>
+    <groupId>com.moomoo</groupId>
     <artifactId>moomoo-scoot</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>moomoo-common</module>
         <module>moomoo-pojo</module>
-        <module>moomoo</module>
+        <module>moomoo-server</module>
     </modules>
     <properties>
         <mybatis.spring>2.2.0</mybatis.spring>
@@ -116,7 +116,7 @@
                 <artifactId>poi-ooxml</artifactId>
                 <version>${poi}</version>
             </dependency>
-            <!--微信支付-->
+            <!--payment method-->
             <dependency>
                 <groupId>com.github.wechatpay-apiv3</groupId>
                 <artifactId>wechatpay-apache-httpclient</artifactId>
