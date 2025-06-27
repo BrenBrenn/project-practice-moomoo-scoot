@@ -6,7 +6,7 @@ import com.moomoo.entity.Employee;
 public interface EmployeeService {
 
     /**
-     * 员工登录
+     * Staff login for ice cream shop
      * @param employeeLoginDTO
      * @return
      */

@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * employee managemnent
+ * Staff management for ice cream shop
  */
 @RestController
 @RequestMapping("/admin/employee")
@@ -32,7 +32,7 @@ public class EmployeeController {
     private JwtProperties jwtProperties;
 
     /**
-     * login
+     * Staff login
      *
      * @param employeeLoginDTO
      * @return
@@ -62,7 +62,7 @@ public class EmployeeController {
     }
 
     /**
-     * 退出
+     * Staff logout
      *
      * @return
      */

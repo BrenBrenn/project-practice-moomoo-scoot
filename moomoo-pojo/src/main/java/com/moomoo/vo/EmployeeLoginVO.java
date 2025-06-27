@@ -13,19 +13,19 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(description = "员工登录返回的数据格式")
+@ApiModel(description = "Staff login response data format for ice cream shop")
 public class EmployeeLoginVO implements Serializable {
 
-    @ApiModelProperty("主键值")
+    @ApiModelProperty("Staff ID")
     private Long id;
 
-    @ApiModelProperty("用户名")
+    @ApiModelProperty("Username")
     private String userName;
 
-    @ApiModelProperty("姓名")
+    @ApiModelProperty("Staff Name")
     private String name;
 
-    @ApiModelProperty("jwt令牌")
+    @ApiModelProperty("JWT Token")
     private String token;
 
 }

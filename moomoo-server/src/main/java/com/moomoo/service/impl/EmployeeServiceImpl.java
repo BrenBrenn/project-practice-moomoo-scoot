@@ -20,7 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
 
     /**
-     * Employee Login
+     * Staff login for ice cream shop
      *
      * @param employeeLoginDTO
      * @return
@@ -29,13 +29,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         String username = employeeLoginDTO.getUsername();
         String password = employeeLoginDTO.getPassword();
 
-        //1. Query data in the database based on username
+        // 1. Query database by username
         Employee employee = employeeMapper.getByUsername(username);
 
-        //2. Handle various abnormal situations
-        // (username does not exist, password is incorrect, account is locked)
+        // 2. Handle various exception cases (username not exists, wrong password, account locked)
         if (employee == null) {
-            //Account does not exist
+            // Account not found
             throw new AccountNotFoundException(MessageConstant.ACCOUNT_NOT_FOUND);
         }
 
@@ -44,16 +43,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         password = DigestUtils.md5DigestAsHex(password.getBytes());
 
         if (!password.equals(employee.getPassword())) {
-            //Wrong password
+            // Wrong password
             throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
 
         if (employee.getStatus() == StatusConstant.DISABLE) {
-            //Account locked
+            // Account locked
             throw new AccountLockedException(MessageConstant.ACCOUNT_LOCKED);
         }
 
-        //3. Return entity object
+        // 3. Return entity object
         return employee;
     }
 
