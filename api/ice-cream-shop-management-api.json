@@ -1,0 +1,1356 @@
+{
+  "info": {
+    "name": "Ice Cream Shop - Management API",
+    "description": "Management interface API collection for ice cream shop system",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{admin_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "admin_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Staff Management",
+      "item": [
+        {
+          "name": "Staff Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const responseJson = pm.response.json();",
+                  "    if (responseJson.code === 1 && responseJson.data.token) {",
+                  "        pm.collectionVariables.set('admin_token', responseJson.data.token);",
+                  "        console.log('Token saved:', responseJson.data.token);",
+                  "    }",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"123456\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employee/login",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "login"]
+            },
+            "description": "Staff login for ice cream shop management system"
+          },
+          "response": [
+            {
+              "name": "Successful Login",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"123456\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url}}/admin/employee/login",
+                  "host": ["{{base_url}}"],
+                  "path": ["admin", "employee", "login"]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"code\": 1,\n  \"msg\": \"success\",\n  \"data\": {\n    \"id\": 1,\n    \"userName\": \"admin\",\n    \"name\": \"Administrator\",\n    \"token\": \"eyJhbGciOiJIUzI1NiJ9...\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Staff Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/employee/logout",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "logout"]
+            },
+            "description": "Staff logout from ice cream shop management system"
+          }
+        },
+        {
+          "name": "Staff Page Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/employee/page?page=1&pageSize=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "page"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "Records per page"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "description": "Staff name (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get paginated list of staff members"
+          }
+        },
+        {
+          "name": "Add Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"John Smith\",\n  \"username\": \"johnsmith\",\n  \"phone\": \"1234567890\",\n  \"sex\": \"1\",\n  \"idNumber\": \"123456789012345678\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employee",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee"]
+            },
+            "description": "Add new staff member"
+          }
+        },
+        {
+          "name": "Update Staff",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"John Smith Updated\",\n  \"username\": \"johnsmith\",\n  \"phone\": \"1234567890\",\n  \"sex\": \"1\",\n  \"idNumber\": \"123456789012345678\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employee",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee"]
+            },
+            "description": "Update staff member information"
+          }
+        },
+        {
+          "name": "Get Staff by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/employee/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "1"]
+            },
+            "description": "Get staff member details by ID"
+          }
+        },
+        {
+          "name": "Enable/Disable Staff",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/employee/status/1?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "status", "1"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Staff ID"
+                }
+              ]
+            },
+            "description": "Enable or disable staff account (1 for enable, 0 for disable)"
+          }
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"oldPassword\": \"123456\",\n  \"newPassword\": \"newpassword123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/employee/editPassword",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "employee", "editPassword"]
+            },
+            "description": "Change staff password"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Category Management",
+      "item": [
+        {
+          "name": "Category Page Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/category/page?page=1&pageSize=10&type=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category", "page"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "Records per page"
+                },
+                {
+                  "key": "type",
+                  "value": "1",
+                  "description": "Category type: 1 for ice cream items, 2 for combos"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "description": "Category name (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get paginated list of categories for ice cream shop"
+          }
+        },
+        {
+          "name": "Add Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"type\": 1,\n  \"name\": \"Premium Flavors\",\n  \"sort\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/category",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category"]
+            },
+            "description": "Add new category for ice cream items or combos"
+          }
+        },
+        {
+          "name": "Update Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"type\": 1,\n  \"name\": \"Classic Flavors\",\n  \"sort\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/category",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category"]
+            },
+            "description": "Update existing category information"
+          }
+        },
+        {
+          "name": "Enable/Disable Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/category/status/1?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category", "status", "1"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Category ID"
+                }
+              ]
+            },
+            "description": "Enable or disable category (1 for enable, 0 for disable)"
+          }
+        },
+        {
+          "name": "Delete Category",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/category?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Category ID to delete"
+                }
+              ]
+            },
+            "description": "Delete category by ID"
+          }
+        },
+        {
+          "name": "List Categories by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/category/list?type=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "category", "list"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "1",
+                  "description": "Category type: 1 for ice cream items, 2 for combos"
+                }
+              ]
+            },
+            "description": "Get all categories by type (without pagination)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ice Cream Items Management",
+      "item": [
+        {
+          "name": "Items Page Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dish/page?page=1&pageSize=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish", "page"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "description": "Item name (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "",
+                  "description": "Category ID (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "description": "Item status (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get paginated list of ice cream items"
+          }
+        },
+        {
+          "name": "Add Ice Cream Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Vanilla Supreme\",\n  \"categoryId\": 1,\n  \"price\": 8.99,\n  \"image\": \"/images/vanilla-supreme.jpg\",\n  \"description\": \"Premium vanilla ice cream with real vanilla beans\",\n  \"status\": 1,\n  \"flavors\": [\n    {\n      \"name\": \"Size\",\n      \"value\": \"[\\\"Small\\\",\\\"Medium\\\",\\\"Large\\\"]\"\n    },\n    {\n      \"name\": \"Toppings\",\n      \"value\": \"[\\\"Chocolate Chips\\\",\\\"Caramel Sauce\\\",\\\"Whipped Cream\\\"]\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/dish",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish"]
+            },
+            "description": "Add new ice cream item with flavors and toppings"
+          }
+        },
+        {
+          "name": "Update Ice Cream Item",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Vanilla Supreme\",\n  \"categoryId\": 1,\n  \"price\": 9.99,\n  \"image\": \"/images/vanilla-supreme.jpg\",\n  \"description\": \"Premium vanilla ice cream with real vanilla beans\",\n  \"status\": 1,\n  \"flavors\": [\n    {\n      \"name\": \"Size\",\n      \"value\": \"[\\\"Small\\\",\\\"Medium\\\",\\\"Large\\\"]\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/dish",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish"]
+            },
+            "description": "Update existing ice cream item"
+          }
+        },
+        {
+          "name": "Enable/Disable Item",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dish/status/1?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish", "status", "1"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Item ID"
+                }
+              ]
+            },
+            "description": "Enable or disable ice cream item sale status"
+          }
+        },
+        {
+          "name": "Delete Item",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dish?ids=1,2,3",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish"],
+              "query": [
+                {
+                  "key": "ids",
+                  "value": "1,2,3",
+                  "description": "Comma-separated item IDs to delete"
+                }
+              ]
+            },
+            "description": "Delete ice cream items by IDs"
+          }
+        },
+        {
+          "name": "Get Item by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dish/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish", "1"]
+            },
+            "description": "Get ice cream item details by ID"
+          }
+        },
+        {
+          "name": "List Items by Category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/dish/list?categoryId=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "dish", "list"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "1",
+                  "description": "Category ID to filter items"
+                }
+              ]
+            },
+            "description": "Get all ice cream items by category (without pagination)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Combo Management",
+      "item": [
+        {
+          "name": "Combo Page Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal/page?page=1&pageSize=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal", "page"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "name",
+                  "value": "",
+                  "description": "Combo name (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "categoryId",
+                  "value": "",
+                  "description": "Category ID (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "description": "Combo status (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Get paginated list of ice cream combos"
+          }
+        },
+        {
+          "name": "Add Combo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Family Pack Combo\",\n  \"categoryId\": 2,\n  \"price\": 24.99,\n  \"image\": \"/images/family-combo.jpg\",\n  \"description\": \"Perfect combo for family gatherings\",\n  \"status\": 1,\n  \"setmealDishes\": [\n    {\n      \"dishId\": 1,\n      \"name\": \"Vanilla Supreme\",\n      \"price\": 8.99,\n      \"copies\": 2\n    },\n    {\n      \"dishId\": 2,\n      \"name\": \"Chocolate Delight\",\n      \"price\": 9.99,\n      \"copies\": 1\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal"]
+            },
+            "description": "Add new ice cream combo with items"
+          }
+        },
+        {
+          "name": "Update Combo",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"name\": \"Family Pack Combo\",\n  \"categoryId\": 2,\n  \"price\": 22.99,\n  \"image\": \"/images/family-combo.jpg\",\n  \"description\": \"Perfect combo for family gatherings - Updated\",\n  \"status\": 1,\n  \"setmealDishes\": [\n    {\n      \"dishId\": 1,\n      \"name\": \"Vanilla Supreme\",\n      \"price\": 8.99,\n      \"copies\": 2\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal"]
+            },
+            "description": "Update existing ice cream combo"
+          }
+        },
+        {
+          "name": "Enable/Disable Combo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal/status/1?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal", "status", "1"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Combo ID"
+                }
+              ]
+            },
+            "description": "Enable or disable combo sale status"
+          }
+        },
+        {
+          "name": "Delete Combo",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal?ids=1,2,3",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal"],
+              "query": [
+                {
+                  "key": "ids",
+                  "value": "1,2,3",
+                  "description": "Comma-separated combo IDs to delete"
+                }
+              ]
+            },
+            "description": "Delete ice cream combos by IDs"
+          }
+        },
+        {
+          "name": "Get Combo by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/setmeal/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "setmeal", "1"]
+            },
+            "description": "Get combo details by ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order Management",
+      "item": [
+        {
+          "name": "Order Page Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/order/conditionSearch?page=1&pageSize=10",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "conditionSearch"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                },
+                {
+                  "key": "number",
+                  "value": "",
+                  "description": "Order number (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "phone",
+                  "value": "",
+                  "description": "Customer phone (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "description": "Order status (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "beginTime",
+                  "value": "",
+                  "description": "Start time (optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "endTime",
+                  "value": "",
+                  "description": "End time (optional)",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Search orders by conditions"
+          }
+        },
+        {
+          "name": "Order Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/order/statistics",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "statistics"]
+            },
+            "description": "Get order statistics for dashboard"
+          }
+        },
+        {
+          "name": "Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/order/details/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "details", "1"]
+            },
+            "description": "Get order details by order ID"
+          }
+        },
+        {
+          "name": "Confirm Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"status\": 3\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/order/confirm",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "confirm"]
+            },
+            "description": "Confirm order for preparation"
+          }
+        },
+        {
+          "name": "Reject Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"rejectionReason\": \"Ingredients not available\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/order/rejection",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "rejection"]
+            },
+            "description": "Reject order with reason"
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"cancelReason\": \"Customer request\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/order/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "cancel"]
+            },
+            "description": "Cancel order with reason"
+          }
+        },
+        {
+          "name": "Delivery Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/order/delivery",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "delivery"]
+            },
+            "description": "Mark order as delivered"
+          }
+        },
+        {
+          "name": "Complete Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/order/complete",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "order", "complete"]
+            },
+            "description": "Mark order as completed"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Report Management",
+      "item": [
+        {
+          "name": "Turnover Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/report/turnoverStatistics?begin=2023-01-01&end=2023-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "report", "turnoverStatistics"],
+              "query": [
+                {
+                  "key": "begin",
+                  "value": "2023-01-01",
+                  "description": "Start date (YYYY-MM-DD)"
+                },
+                {
+                  "key": "end",
+                  "value": "2023-12-31",
+                  "description": "End date (YYYY-MM-DD)"
+                }
+              ]
+            },
+            "description": "Get turnover statistics for specified period"
+          }
+        },
+        {
+          "name": "User Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/report/userStatistics?begin=2023-01-01&end=2023-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "report", "userStatistics"],
+              "query": [
+                {
+                  "key": "begin",
+                  "value": "2023-01-01"
+                },
+                {
+                  "key": "end",
+                  "value": "2023-12-31"
+                }
+              ]
+            },
+            "description": "Get user registration statistics"
+          }
+        },
+        {
+          "name": "Orders Statistics",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/report/ordersStatistics?begin=2023-01-01&end=2023-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "report", "ordersStatistics"],
+              "query": [
+                {
+                  "key": "begin",
+                  "value": "2023-01-01"
+                },
+                {
+                  "key": "end",
+                  "value": "2023-12-31"
+                }
+              ]
+            },
+            "description": "Get order statistics"
+          }
+        },
+        {
+          "name": "Top 10 Sales",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/report/top10?begin=2023-01-01&end=2023-12-31",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "report", "top10"],
+              "query": [
+                {
+                  "key": "begin",
+                  "value": "2023-01-01"
+                },
+                {
+                  "key": "end",
+                  "value": "2023-12-31"
+                }
+              ]
+            },
+            "description": "Get top 10 selling items"
+          }
+        },
+        {
+          "name": "Export Business Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/report/export",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "report", "export"]
+            },
+            "description": "Export business data report"
+          }
+        },
+        {
+          "name": "Today's Business Data",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/workspace/businessData",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "workspace", "businessData"]
+            },
+            "description": "Get today's business overview data"
+          }
+        },
+        {
+          "name": "Item Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/workspace/overviewDishes",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "workspace", "overviewDishes"]
+            },
+            "description": "Get ice cream items overview"
+          }
+        },
+        {
+          "name": "Combo Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/workspace/overviewSetmeals",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "workspace", "overviewSetmeals"]
+            },
+            "description": "Get combos overview"
+          }
+        },
+        {
+          "name": "Order Overview",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/workspace/overviewOrders",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "workspace", "overviewOrders"]
+            },
+            "description": "Get orders overview"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shop Management",
+      "item": [
+        {
+          "name": "Get Shop Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/shop/status",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "shop", "status"]
+            },
+            "description": "Get ice cream shop operating status"
+          }
+        },
+        {
+          "name": "Set Shop Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/admin/shop/1",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "shop", "1"]
+            },
+            "description": "Set shop status (1 for open, 0 for closed)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Common Functions",
+      "item": [
+        {
+          "name": "File Upload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{admin_token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/admin/common/upload",
+              "host": ["{{base_url}}"],
+              "path": ["admin", "common", "upload"]
+            },
+            "description": "Upload image files for ice cream items or combos"
+          }
+        }
+      ]
+    }
+  ]
+} 

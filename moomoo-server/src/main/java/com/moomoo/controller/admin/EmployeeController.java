@@ -8,6 +8,8 @@ import com.moomoo.result.Result;
 import com.moomoo.service.EmployeeService;
 import com.moomoo.utils.JwtUtil;
 import com.moomoo.vo.EmployeeLoginVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/admin/employee")
 @Slf4j
+@Api(tags = "Employee Management related interface")
 public class EmployeeController {
 
     @Autowired
@@ -37,7 +40,10 @@ public class EmployeeController {
      * @param employeeLoginDTO
      * @return
      */
+
+
     @PostMapping("/login")
+    @ApiOperation(value = "Employee login")
     public Result<EmployeeLoginVO> login(@RequestBody EmployeeLoginDTO employeeLoginDTO) {
         log.info("Employee login: {}", employeeLoginDTO);
 
@@ -63,10 +69,10 @@ public class EmployeeController {
 
     /**
      * Staff logout
-     *
      * @return
      */
     @PostMapping("/logout")
+    @ApiOperation("Employee logout")
     public Result<String> logout() {
         return Result.success();
     }

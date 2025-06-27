@@ -1,0 +1,648 @@
+{
+  "info": {
+    "name": "Ice Cream Shop - Customer API",
+    "description": "Customer interface API collection for ice cream shop system",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{customer_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "customer_token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Category Interface",
+      "item": [
+        {
+          "name": "Conditional Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/category/list?type=1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "category", "list"],
+              "query": [
+                {
+                  "key": "type",
+                  "value": "1",
+                  "description": "Category type: 1 for ice cream items, 2 for combos",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Conditional query for categories"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Address Book Interface",
+      "item": [
+        {
+          "name": "Add Address",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"consignee\": \"John Doe\",\n  \"sex\": \"1\",\n  \"phone\": \"1234567890\",\n  \"provinceCode\": \"110000\",\n  \"provinceName\": \"Beijing\",\n  \"cityCode\": \"110100\",\n  \"cityName\": \"Beijing City\",\n  \"districtCode\": \"110101\",\n  \"districtName\": \"Dongcheng District\",\n  \"detail\": \"123 Main Street, Apt 4B\",\n  \"label\": \"Home\",\n  \"isDefault\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/addressBook",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook"]
+            },
+            "description": "Add new delivery address"
+          }
+        },
+        {
+          "name": "Query Current User's All Address Info",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/addressBook/list",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook", "list"]
+            },
+            "description": "Query all address information of current logged-in user"
+          }
+        },
+        {
+          "name": "Query Default Address",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/addressBook/default",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook", "default"]
+            },
+            "description": "Query default address"
+          }
+        },
+        {
+          "name": "Query Address by ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/addressBook/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook", "1"]
+            },
+            "description": "Query address by ID"
+          }
+        },
+        {
+          "name": "Modify Address by ID",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1,\n  \"consignee\": \"John Doe\",\n  \"sex\": \"1\",\n  \"phone\": \"1234567890\",\n  \"provinceCode\": \"110000\",\n  \"provinceName\": \"Beijing\",\n  \"cityCode\": \"110100\",\n  \"cityName\": \"Beijing City\",\n  \"districtCode\": \"110101\",\n  \"districtName\": \"Dongcheng District\",\n  \"detail\": \"456 Updated Street, Apt 5C\",\n  \"label\": \"Home\",\n  \"isDefault\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/addressBook",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook"]
+            },
+            "description": "Modify address by ID"
+          }
+        },
+        {
+          "name": "Delete Address by ID",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/addressBook?id=1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook"],
+              "query": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "Address ID to delete"
+                }
+              ]
+            },
+            "description": "Delete address by ID"
+          }
+        },
+        {
+          "name": "Set Default Address",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/addressBook/default",
+              "host": ["{{base_url}}"],
+              "path": ["user", "addressBook", "default"]
+            },
+            "description": "Set default address"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Combo Interface",
+      "item": [
+        {
+          "name": "Query Combos by Category ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/setmeal/list?categoryId=2",
+              "host": ["{{base_url}}"],
+              "path": ["user", "setmeal", "list"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "2",
+                  "description": "Category ID"
+                }
+              ]
+            },
+            "description": "Query combos by category ID"
+          }
+        },
+        {
+          "name": "Query Included Items by Combo ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/setmeal/dish/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "setmeal", "dish", "1"]
+            },
+            "description": "Query included items by combo ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shop Interface",
+      "item": [
+        {
+          "name": "Get Business Status",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/shop/status",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shop", "status"]
+            },
+            "description": "Get business status"
+          }
+        }
+      ]
+    },
+    {
+      "name": "User Interface",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"code\": \"customer_auth_code\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/user/login",
+              "host": ["{{base_url}}"],
+              "path": ["user", "user", "login"]
+            },
+            "description": "Customer login"
+          }
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/user/logout",
+              "host": ["{{base_url}}"],
+              "path": ["user", "user", "logout"]
+            },
+            "description": "Customer logout"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Item Interface",
+      "item": [
+        {
+          "name": "Query Items by Category ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/dish/list?categoryId=1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "dish", "list"],
+              "query": [
+                {
+                  "key": "categoryId",
+                  "value": "1",
+                  "description": "Category ID"
+                }
+              ]
+            },
+            "description": "Query ice cream items by category ID"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Order Interface",
+      "item": [
+        {
+          "name": "Urge Order",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/order/reminder/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "reminder", "1"]
+            },
+            "description": "Urge order"
+          }
+        },
+        {
+          "name": "Repeat Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/order/repetition/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "repetition", "1"]
+            },
+            "description": "Repeat order"
+          }
+        },
+        {
+          "name": "Order History Query",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/order/historyOrders?page=1&pageSize=10",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "historyOrders"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "description": "Records per page"
+                },
+                {
+                  "key": "status",
+                  "value": "",
+                  "description": "Order status",
+                  "disabled": true
+                }
+              ]
+            },
+            "description": "Query order history"
+          }
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/order/cancel/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "cancel", "1"]
+            },
+            "description": "Cancel order"
+          }
+        },
+        {
+          "name": "Query Order Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/order/orderDetail/1",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "orderDetail", "1"]
+            },
+            "description": "Query order details"
+          }
+        },
+        {
+          "name": "Place Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"addressBookId\": 1,\n  \"payMethod\": 1,\n  \"remark\": \"No onions please\",\n  \"estimatedDeliveryTime\": \"2024-01-01 18:00:00\",\n  \"deliveryStatus\": 1,\n  \"tablewareNumber\": 2,\n  \"tablewareStatus\": 1,\n  \"packAmount\": 5,\n  \"amount\": 25.99\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/order/submit",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "submit"]
+            },
+            "description": "Place order"
+          }
+        },
+        {
+          "name": "Order Payment",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderNumber\": \"20240101123456789\",\n  \"payMethod\": 1\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/order/payment",
+              "host": ["{{base_url}}"],
+              "path": ["user", "order", "payment"]
+            },
+            "description": "Order payment"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shopping Cart Interface",
+      "item": [
+        {
+          "name": "Delete One Item from Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dishId\": 1,\n  \"setmealId\": null,\n  \"dishFlavor\": \"Extra chocolate\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/shoppingCart/sub",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shoppingCart", "sub"]
+            },
+            "description": "Delete one item from shopping cart"
+          }
+        },
+        {
+          "name": "View Shopping Cart",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/shoppingCart/list",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shoppingCart", "list"]
+            },
+            "description": "View shopping cart"
+          }
+        },
+        {
+          "name": "Add to Cart",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dishId\": 1,\n  \"setmealId\": null,\n  \"dishFlavor\": \"Extra chocolate\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/user/shoppingCart/add",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shoppingCart", "add"]
+            },
+            "description": "Add item to shopping cart"
+          }
+        },
+        {
+          "name": "Clear Cart",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "token",
+                "value": "{{customer_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/user/shoppingCart/clean",
+              "host": ["{{base_url}}"],
+              "path": ["user", "shoppingCart", "clean"]
+            },
+            "description": "Clear shopping cart"
+          }
+        }
+      ]
+    }
+  ]
+} 
