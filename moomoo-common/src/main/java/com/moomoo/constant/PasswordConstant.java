@@ -1,7 +1,7 @@
 package com.moomoo.constant;
 
 /**
- * 密码常量
+ * password constant
  */
 public class PasswordConstant {
 

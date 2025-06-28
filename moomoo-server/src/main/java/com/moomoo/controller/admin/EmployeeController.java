@@ -1,6 +1,7 @@
 package com.moomoo.controller.admin;
 
 import com.moomoo.constant.JwtClaimsConstant;
+import com.moomoo.dto.EmployeeDTO;
 import com.moomoo.dto.EmployeeLoginDTO;
 import com.moomoo.entity.Employee;
 import com.moomoo.properties.JwtProperties;
@@ -10,6 +11,7 @@ import com.moomoo.utils.JwtUtil;
 import com.moomoo.vo.EmployeeLoginVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jdk.jpackage.internal.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -77,4 +79,17 @@ public class EmployeeController {
         return Result.success();
     }
 
+
+    /**
+     * Add new employee
+     * @param employeeDTO
+     * @return
+     */
+    @PostMapping
+    @ApiOperation("Add new employee")
+    public Result save(@RequestBody EmployeeDTO employeeDTO) {
+        log.info("Add new employee: {}",employeeDTO);
+        employeeService.save(employeeDTO);
+        return null;
+    }
 }
